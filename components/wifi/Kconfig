@@ -1,0 +1,11 @@
+menu "Configuração do Wi-Fi"
+
+    config WIFI_SSID
+        string "Nome da Rede Wi-Fi"
+        default "NOME_PADRAO"
+
+    config WIFI_PASSWORD
+        string "Senha da Rede Wi-Fi"
+        default "SENHA_PADRAO"
+
+endmenu
