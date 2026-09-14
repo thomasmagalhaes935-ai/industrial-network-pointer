@@ -5,8 +5,7 @@
 
 void e18_sensor_init(void);
 
-bool e18_sensor_detected(void);
-
-bool e18_sensor_is_active(void);
+bool e18_sensor_bom_detected(void);
+bool e18_sensor_ruim_detected(void);
 
 #endif

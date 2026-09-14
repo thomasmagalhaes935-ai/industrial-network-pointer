@@ -2,24 +2,37 @@
 
 #include <stdio.h>
 
-static int cont_produtos = 0;
+static int cont_produtos_bons = 0;
+static int cont_produtos_ruins = 0;
 
 void counter_init(void)
 {
-    cont_produtos = 0;
+    cont_produtos_bons = 0;
+    cont_produtos_ruins = 0;
 
-    printf("Contador inicializado.\n");
+    printf("Contadores inicializados.\n");
 }
 
-void counter_process_detection(void)
+void counter_bom_process_detection(void)
 {
-    cont_produtos++;
+    cont_produtos_bons++;
 
-  //  printf("OBJETO DETECTADO!\n");
-    printf("Quantidade de objetos: %d\n", cont_produtos);
+    printf("Produtos bons: %d\n", cont_produtos_bons);
 }
 
-int counter_get_count(void)
+void counter_ruim_process_detection(void)
 {
-    return cont_produtos;
+    cont_produtos_ruins++;
+
+    printf("Produtos ruins: %d\n", cont_produtos_ruins);
+}
+
+int counter_get_bom_count(void)
+{
+    return cont_produtos_bons;
+}
+
+int counter_get_ruim_count(void)
+{
+    return cont_produtos_ruins;
 }
