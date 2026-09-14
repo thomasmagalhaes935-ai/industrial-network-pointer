@@ -47,7 +47,7 @@ bool mqtt_is_connected(void)
     return is_connected;
 }
 
-void mqtt_publish_count(int count)
+void mqtt_publish_count(int esteira_id, int count)
 {
     if (!is_connected || client == NULL) {
         ESP_LOGW(TAG, "MQTT não está conectado. Mensagem não enviada.");
@@ -56,7 +56,10 @@ void mqtt_publish_count(int count)
 
     // Formato JSON enviado para o broker
     char payload[64];
-    snprintf(payload, sizeof(payload), "{\"quantidade\": %d}", count);
+    snprintf(payload, sizeof(payload),
+             "{\"esteira_id\": %d, \"quantidade\": %d}",
+             esteira_id,
+             count);
 
     int msg_id = esp_mqtt_client_publish(client, MQTT_TOPIC, payload, 0, 1, 0);
     ESP_LOGI(TAG, "Mensagem publicada (ID: %d): %s", msg_id, payload);

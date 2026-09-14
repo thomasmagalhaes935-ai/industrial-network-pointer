@@ -17,6 +17,10 @@
 static const char *TAG = "MAIN";
 static EventGroupHandle_t s_wifi_event_group;
 #define WIFI_CONNECTED_BIT BIT0
+// Escolha UMA das linhas abaixo antes de gravar em cada ESP32:
+
+#define ESTEIRA_ID 1   // <-- Este ESP32 é a esteira 1 (aprovados)
+// #define ESTEIRA_ID 2   // <-- Este ESP32 é a esteira 2 (defeituosos)
 
 static void event_handler(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data)
@@ -24,9 +28,9 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-        ESP_LOGW(TAG, "Tentando conectar ao Wi-Fi...");
-        xEventGroupClearBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
+        ESP_LOGI(TAG, "Tentando reconectar ao Wi-Fi...");
         esp_wifi_connect();
+
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "Conectado! IP obtido: " IPSTR, IP2STR(&event->ip_info.ip));
@@ -114,7 +118,7 @@ void app_main(void)
                 counter_process_detection();
 
                 int total_produtos = counter_get_count();
-                mqtt_publish_count(total_produtos);
+                mqtt_publish_count(ESTEIRA_ID, total_produtos);
 
                 led_verde_blink();
             }

@@ -1,3 +1,4 @@
+import json
 import paho.mqtt.client as mqtt
 
 BROKER = "mqtt-dashboard.com"
@@ -16,11 +17,25 @@ def on_connect(client, userdata, flags, reason_code, properties):
 
 
 def on_message(client, userdata, msg):
-    mensagem = msg.payload.decode()
+    try:
+        mensagem = msg.payload.decode()
 
-    print("\n[MQTT] Mensagem recebida")
-    print(f"Tópico: {msg.topic}")
-    print(f"Mensagem: {mensagem}")
+        dados = json.loads(mensagem)
+
+        esteira_id = dados["esteira_id"]
+        quantidade = dados["quantidade"]
+
+        print("\n[MQTT] Mensagem recebida")
+        print(f"Tópico: {msg.topic}")
+        print(f"Esteira: {esteira_id}")
+        print(f"Quantidade: {quantidade}")
+
+    except json.JSONDecodeError:
+        print("\n[MQTT] Erro: mensagem não é um JSON válido")
+        print(f"Mensagem recebida: {mensagem}")
+
+    except KeyError as e:
+        print(f"\n[MQTT] Erro: campo ausente no JSON: {e}")
 
 
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
