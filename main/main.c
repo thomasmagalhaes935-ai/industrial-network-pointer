@@ -1,19 +1,18 @@
 #include <stdio.h>
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
-
 #include "nvs_flash.h"
 #include "esp_log.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
-
 #include "e18_sensor.h"
 #include "counter.h"
 #include "button.h"
 #include "Leds.h"
 #include "mqtt.h"
+
+//principal 
 
 static const char *TAG = "MAIN";
 
