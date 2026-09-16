@@ -15,9 +15,11 @@ A estrutura do sistema é dividida em dois nós principais, integrados por rede 
 
 ---
 
-## 1 - Como o Sistema Funciona
+## 1. Como o Sistema Funciona?
 
-graph TD
+g - ESP32 Xtensa Dual-Core
+ - Linha ESP32-S Xtensa
+- Linha ESP32-C RISC-Vraph TD
     %% Sensoriamento e Entrada
     subgraph "Nó 1: Chão de Fábrica e Sensoriamento"
         E1[Esteira 1 + Funil] -->|Produto Conforme| S1(Sensor E18-D80NK)
@@ -51,11 +53,7 @@ graph TD
 
 **Fluxo da Arquitetura:**
 
-1. **Sensoriamento (Entrada):** Sensores Infravermelhos E18-D80NK detectam a passagem das peças.
-3. **Processamento (Edge):** Microcontrolador ESP32 processa os pulsos e aplica lógicas de timeout.
-4. **Conectividade:** ESP32 transmite dados estruturados via rede Wi-Fi (Protocolo MQTT).
-5. **Aplicação (Saída):** Servidor recebe os dados e renderiza os indicadores em um Dashboard gerencial via Gravana Cloud.
-
+1. **Sensoriamento (Entrada):** Sensores Infravermelhos E18-D80NK detectam a passag
 ## 2 - Dependências e Requisitos
 
 **Hardware Previsto:**
@@ -85,33 +83,42 @@ graph TD
 
 
 ## 3 - Esquemáticos Elétricos
-(Versão final do esquemático em desenvolvimento)
+
+https://drive.google.com/file/d/10lRyIn6JtTScpn4rrbwM8kbDZzZsx6ui/view?usp=sharing
 
 ## 4 - Preparação e Configuração
 
 ### 4.1 - Passos Iniciais
 
 #### **4.1.1 - Configuração da IDE**:
-Instale o VS Code. Na aba de extensões, procure por "Espressif IDF" e instale. Siga o assistente de configuração (Setup Wizard) nativo da extensão para baixar o toolchain completo do ESP-IDF no seu computador.
+Instale o VS Code. Na aba de extensões, procure por "Espressif IDF" e instale. Siga o assistente de configuração (Setup Wizard) nativo da extensão para baixar o toolchain completo do ESP-IDF no seu computador. Também é necessário ter o Git, Python 3 e os drivers USB/serial da placa instalados
 
 #### **4.1.2 - Abertura do Projeto:**
 Clone o repositório do projeto e abra a pasta principal no VS Code.
 
 #### **4.1.3 - Seleção de Target e Porta:**
-Na barra inferior do VS Code (barra do ESP-IDF), clique no ícone da placa e defina o target como esp32. Em seguida, clique no ícone de tomada para selecionar a porta COM onde sua placa está conectada.
+Na barra inferior do VS Code, utilize as opções do ESP-IDF para solucionar o modelo da placa e a porta serial utilizada. Para o protótipo com ESP32, o target deve ser configurado como: idf.py set-target ESP32. Selecione tambem a porta COM correspondente à placa conectada ao computador. 
 
 #### **4.1.4 - Credenciais de Rede e Nuvem (Menuconfig):**
-Clique no ícone de engrenagem (SDK Configuration Editor / menuconfig) na barra inferior. Navegue até as configurações do projeto (ou edite diretamente o arquivo de cabeçalho designado, como config.h) e insira:
-
-    Wi-Fi: SSID e Senha da rede local.
+Abra o menu_config no terminal do projeto, e escolha a opção "Component config -> Configuração do Wi-Fi -->" e configure o nome da rede e a senha que será utilizado para fazer a conexão com o ESP32, a conexão com o mqtt falhará se os dados credenciais da rede estiverem incorretos.
 
 ### **4.2 - Grafana Cloud MQTT:**
-Anote as informações de URL (Endpoint), Porta, Username e Password fornecidos pelo painel de integração do Grafana.
+No Grafana Cloud, configure a integração MQTT utilizando os dados fornecidos pelo serviço, o ESP32 atua como Publisher, enviando os dados da produção através do protocolo MQTT. Os tópicos utilizados devem corresponder aos configurados no projeto: 
+
+#define MQTT_BROKER_URI "mqtt://mqtt-dashboard.com:1883"
+#define MQTT_TOPIC "esteiras/produtos/contagem"
 
 ### **4.3 - GrafanaCompilação e Gravação:**
-Utilize os atalhos da barra do ESP-IDF: clique em Build (ícone de lixeira/fogo) para compilar o código em C, e depois em Flash (ícone de raio) para gravar o firmware no ESP32.
+Após configurar o projeto, compile e grave o firmware no ESP32 utilizando o ESP-IDF. 
+
+idf.py build
+idf.py flash
+
+Para acompanhar as mensagens e o funcionamento do sistema pelo monitor serial: 
+
+idf.py monitor
 
 ### **4.4 - Configuração do Dashboard:**
-Acesse o painel web do Grafana Cloud, crie um novo Dashboard, adicione painéis do tipo Time Series ou Stat e configure as queries para escutar os tópicos MQTT publicados pelo seu ESP32.
+No Grafana Cloud, crie o Dashboard responsável pela visualização dos dados recebidos via MQTT. Podem ser utilizados painéis como: Stat, Time Series e Bar chart. Os painéis devem utilizar os dados recebidos pela integração MQTT e permitir a visualização atualizada da produção.
 
 
