@@ -4,7 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#define BUTTON_GPIO GPIO_NUM_7
+#define BUTTON_GPIO        
 
 void button_init(void)
 {
