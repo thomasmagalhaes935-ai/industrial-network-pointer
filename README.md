@@ -17,43 +17,9 @@ A estrutura do sistema é dividida em dois nós principais, integrados por rede 
 
 ## 1. Como o Sistema Funciona?
 
-g - ESP32 Xtensa Dual-Core
- - Linha ESP32-S Xtensa
-- Linha ESP32-C RISC-Vraph TD
-    %% Sensoriamento e Entrada
-    subgraph "Nó 1: Chão de Fábrica e Sensoriamento"
-        E1[Esteira 1 + Funil] -->|Produto Conforme| S1(Sensor E18-D80NK)
-        E2[Esteira 2 + Funil] -->|Produto Defeituoso| S2(Sensor E18-D80NK)
-    end
+![Imagem do fluxograma da arquitetura do projeto](url-da-imagem)
 
-    %% Processamento
-    subgraph "Nó 1: Processamento de Borda (Edge)"
-        S1 -. Sinal Digital .-> ESP32{Placa ESP32}
-        S2 -. Sinal Digital .-> ESP32
-        ESP32 -->|ESP-IDF C/C++| Logica[Filtro Debounce / Contadores]
-    end
 
-    %% Conectividade
-    subgraph "Rede e Protocolo"
-        Logica -->|Conexão Wi-Fi Local| MQTT_Pub[Publicação via Protocolo MQTT]
-    end
-
-    %% Software e Aplicação
-    subgraph "Nó 2: Nuvem e Software"
-        MQTT_Pub == Dados Estruturados ==> Grafana_Ingest(Grafana Cloud MQTT Integration)
-        Grafana_Ingest --> TSDB[(Banco de Dados de Séries Temporais)]
-        TSDB --> Dashboard([Dashboard Gerencial em Tempo Real])
-    end
-
-    %% Estilização para o GitHub
-    style ESP32 fill:#ffcc00,stroke:#333,stroke-width:2px
-    style Dashboard fill:#0099ff,stroke:#333,stroke-width:2px
-    style S1 fill:#00cc66,stroke:#333
-    style S2 fill:#ff3333,stroke:#333
-
-**Fluxo da Arquitetura:**
-
-1. **Sensoriamento (Entrada):** Sensores Infravermelhos E18-D80NK detectam a passag
 ## 2 - Dependências e Requisitos
 
 **Hardware Previsto:**
@@ -84,7 +50,7 @@ g - ESP32 Xtensa Dual-Core
 
 ## 3 - Esquemáticos Elétricos
 
-https://drive.google.com/file/d/10lRyIn6JtTScpn4rrbwM8kbDZzZsx6ui/view?usp=sharing
+![Esquemáticos Elétricos](url-da-imagem)
 
 ## 4 - Preparação e Configuração
 
