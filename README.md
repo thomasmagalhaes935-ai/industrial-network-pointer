@@ -17,7 +17,7 @@ A estrutura do sistema é dividida em dois nós principais, integrados por rede 
 
 ## 1. Como o Sistema Funciona?
 
-![Imagem do fluxograma da arquitetura do projeto](url-da-imagem)
+![Imagem do fluxograma da arquitetura do projeto](https://raw.githubusercontent.com/thomasmagalhaes935-ai/industrial-network-pointer/refs/heads/main/Docs/Diagrama%20da%20Arquitetura/Diagrama%20da%20Arquitetura.jpg)
 
 
 ## 2 - Dependências e Requisitos
@@ -50,7 +50,7 @@ A estrutura do sistema é dividida em dois nós principais, integrados por rede 
 
 ## 3 - Esquemáticos Elétricos
 
-![Esquemáticos Elétricos](url-da-imagem)
+![Esquemáticos Elétricos](https://github.com/thomasmagalhaes935-ai/industrial-network-pointer/blob/main/Docs/Esquematico%20Eletrico/esquematico-eletrico.jpg?raw=true)
 
 ## 4 - Preparação e Configuração
 
